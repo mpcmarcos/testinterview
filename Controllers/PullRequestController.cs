@@ -7,33 +7,30 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Interview.Models;
 using Interview.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Interview.Controllers
 {
-    public class PullRequestController : Controller
+  [Authorize]
+  public class PullRequestController : Controller
+  {
+    private readonly ILogger<HomeController> _logger;
+    private readonly IMailService mailService;
+    private readonly ISmsService smsService;
+
+    public PullRequestController(ILogger<HomeController> logger, IMailService MailService, ISmsService SmsService)
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly MailService mailService;
-        private readonly SmsService SmsService;
-
-        public PullRequestController(ILogger<HomeController> logger, MailService MailService)
-        {
-            _logger = logger;
-            mailService = MailService;
-            SmsService = new SmsService();
-
-        }
-
-
-        public IActionResult Index()
-        {
-            mailService.Send("test@test.com", "test@test.com", "body");
-            SmsService.Send("111111", "message");
-
-            //You have return a view with 2 textox and a button
-            return View();
-        }
-
-
+      _logger = logger;
+      mailService = MailService;
+      smsService = SmsService;
     }
+
+    public IActionResult Index()
+    {
+      mailService.Send("test@test.com", "test@test.com", "body");
+      smsService.Send("111111", "message");
+
+      return RedirectToAction("List", "Test");
+    }
+  }
 }
