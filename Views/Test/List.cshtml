@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Interview.Data.TwoFields>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>@ViewData["Title"] | <a asp-action="Index">Create New</a></h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Field1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Field2)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Field1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Field2)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
